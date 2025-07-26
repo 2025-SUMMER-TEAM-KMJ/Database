@@ -64,7 +64,7 @@ def main():
     """메인 동기화 로직을 실행합니다."""
     
     # 설정 및 클라이언트 준비
-    desired_schema = load_config('mongo_config.yml')
+    desired_schema = load_config(DEFAULT_CONFIG_PATH)
     client = get_mongo_client()
     print("✅ MongoDB 연결 성공 및 설정 파일 로드 완료.")
 
