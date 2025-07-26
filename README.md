@@ -10,7 +10,7 @@
 
 | 스키마 이름 및 파일                                            | 목적 및 설명                                                               | 상세 정보                                                 |
 | -------------------------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------- |
-| **자소서 스키마**<br/>`jobkorea_cover_letter.schema.json`         | 잡코리아 등에서 수집된 자기소개서 원본 데이터 구조를 정의합니다.           | [자세히 보기](./schemas/jobkorea_cover_letter_README.md)    |
+| **잡코리아 자소서 스키마**<br/>`jobkorea_cover_letter.schema.json`         | 잡코리아 등에서 수집된 자기소개서 원본 데이터 구조를 정의합니다.           | [자세히 보기](./schemas/jobkorea_cover_letter_README.md)    |
 | **원티드 채용 공고**<br/>`wanted_job_posting.schema.json`       | 원티드에서 수집한 채용 공고 원본 데이터 구조를 정의합니다.                 | [자세히 보기](./schemas/wanted_job_posting_README.md)       |
 | **원티드 기업 프로필**<br/>`wanted_company_profile.schema.json` | 원티드에서 수집한 기업 프로필 원본 데이터 구조를 정의합니다.               | [자세히 보기](./schemas/wanted_company_profile_README.md)   |
 | **마스터 채용 공고**<br/>`master_job_posting.schema.json`       | 모든 채용 공고를 표준화하여 AI와 서비스에서 공통으로 사용하는 스키마입니다.  | [자세히 보기](./schemas/master_job_posting_README.md)       |
