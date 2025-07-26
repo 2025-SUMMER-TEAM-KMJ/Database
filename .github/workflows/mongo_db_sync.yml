@@ -10,7 +10,8 @@ on:
     # 단, 아래 지정된 파일이 변경되었을 경우에만 실행
     paths:
       - 'scripts/mongo_config.yml'
-
+  workflow_dispatch:
+  
 # 실행될 작업(Job)들의 목록
 jobs:
   # 'sync-database'라는 이름의 단일 작업 정의
