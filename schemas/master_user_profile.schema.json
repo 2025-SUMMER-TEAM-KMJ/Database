@@ -1,0 +1,280 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "사용자 프로필 스키마 (평탄화 및 재구성 버전)",
+  "description": "사용자의 과거 경력과 현재 희망 직무를 구조화한 스키마입니다.",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "이름",
+      "type": "string"
+    },
+    "age": {
+      "description": "나이",
+      "type": "integer",
+      "minimum": 0
+    },
+    "gender": {
+      "description": "성별",
+      "type": "string",
+      "enum": [
+        "Male",
+        "Female",
+        "Other"
+      ]
+    },
+    "email": {
+      "description": "이메일 주소",
+      "type": "string",
+      "format": "email"
+    },
+    "phone": {
+      "description": "연락처",
+      "type": "string"
+    },
+    "urls": {
+      "description": "관련 URL 링크 목록",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri"
+      }
+    },
+    "education": {
+      "description": "학력 정보",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "schoolName": {
+            "description": "학교명",
+            "type": "string"
+          },
+          "major": {
+            "description": "전공",
+            "type": "string"
+          },
+          "degree": {
+            "description": "학위",
+            "type": "string",
+            "enum": [
+              "Associate",
+              "Bachelor",
+              "Master",
+              "Doctorate"
+            ]
+          },
+          "startDate": {
+            "description": "시작일 (YYYY-MM)",
+            "type": "string",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+          },
+          "endDate": {
+            "description": "종료일 (YYYY-MM, 재학 중일 경우 null)",
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "schoolName",
+          "major",
+          "startDate"
+        ]
+      }
+    },
+    "workExperience": {
+      "description": "경력 정보 (직군/직무 구조화)",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "companyName": {
+            "description": "회사명",
+            "type": "string"
+          },
+          "jobGroup": {
+            "description": "직군 (대분류)",
+            "type": "string"
+          },
+          "job": {
+            "description": "직무 (상세 포지션)",
+            "type": "string"
+          },
+          "startDate": {
+            "description": "시작일 (YYYY-MM)",
+            "type": "string",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+          },
+          "endDate": {
+            "description": "종료일 (YYYY-MM, 재직 중일 경우 null)",
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "description": {
+            "description": "주요 업무 및 성과",
+            "type": "string"
+          }
+        },
+        "required": [
+          "companyName",
+          "jobGroup",
+          "job",
+          "startDate"
+        ]
+      }
+    },
+    "experience": {
+      "description": "개인의 모든 경험을 담는 목록 (프로젝트, 대외활동 등)",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "description": "프로젝트 또는 활동명",
+            "type": "string"
+          },
+          "description": {
+            "description": "상세 설명 및 배운 점",
+            "type": "string"
+          },
+          "link": {
+            "description": "관련 웹 링크 (GitHub, Demo 등)",
+            "type": "string",
+            "format": "uri"
+          },
+          "techStack": {
+            "description": "사용 기술 목록",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "startDate": {
+            "description": "시작일 (YYYY-MM)",
+            "type": "string",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+          },
+          "endDate": {
+            "description": "종료일 (YYYY-MM, 선택 사항)",
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "type": {
+            "description": "경험 타입",
+            "type": "string",
+            "enum": [
+              "Personal Project",
+              "Open Source Contribution",
+              "Tech Blog",
+              "Presentation",
+              "Study",
+              "Other"
+            ]
+          }
+        },
+        "required": [
+          "title",
+          "description"
+        ]
+      }
+    },
+    "competencies": {
+      "description": "보유 역량 목록 (기술 스택, 소프트 스킬 등)",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "preferredPosition": {
+      "description": "희망 직무/직군 목록",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "jobGroup": {
+            "description": "희망 직군 (대분류)",
+            "type": "string"
+          },
+          "job": {
+            "description": "희망 직무 (상세 포지션)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "jobGroup"
+        ]
+      }
+    },
+    "certifications": {
+      "description": "수상 내역, 자격증, 수료증 등",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "수상 또는 자격증명",
+            "type": "string"
+          },
+          "description": {
+            "description": "상세 내용",
+            "type": "string"
+          },
+          "issueDate": {
+            "description": "취득일 또는 수상일 (YYYY-MM)",
+            "type": "string",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+          }
+        },
+        "required": [
+          "name",
+          "issueDate"
+        ]
+      }
+    },
+    "personalNarratives": {
+      "description": "개인 서술",
+      "type": "object",
+      "properties": {
+        "personality": {
+          "description": "성격의 장단점",
+          "type": "string"
+        },
+        "values": {
+          "description": "가치관",
+          "type": "string"
+        },
+        "psExperience": {
+          "description": "주요 문제 해결 경험",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": [
+    "name",
+    "age",
+    "gender",
+    "email",
+    "phone"
+  ]
+}

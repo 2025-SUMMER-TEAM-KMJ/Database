@@ -1,0 +1,111 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "기업 정보 스키마",
+    "description": "원티드에서 크롤링한 기업 정보를 나타내는 스키마입니다.",
+    "type": "object",
+    "properties": {
+        "companyName": {
+            "description": "기업명",
+            "type": "string"
+        },
+        "source": {
+            "description": "데이터 출처 정보",
+            "type": "object",
+            "properties": {
+                "url": {
+                    "description": "원본 URL",
+                    "type": "string",
+                    "format": "uri"
+                },
+                "platform": {
+                    "description": "크롤링 플랫폼",
+                    "type": "string"
+                },
+                "crawledAt": {
+                    "description": "크롤링 시각",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "url"
+            ]
+        },
+        "profile": {
+            "description": "시스템이 분석/변환한 최종 기업 프로필",
+            "type": "object",
+            "properties": {
+                "features": {
+                    "description": "특징",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "avgSalary": {
+                    "description": "전체 평균 연봉",
+                    "type": "integer"
+                },
+                "avgEntrySalary": {
+                    "description": "신규 입사자 평균 연봉 (경력 포함)",
+                    "type": "integer"
+                },
+                "address": {
+                    "description": "회사 주소 정보",
+                    "type": "object",
+                    "properties": {
+                        "country": {
+                            "type": "string"
+                        },
+                        "location": {
+                            "type": "string"
+                        },
+                        "district": {
+                            "type": "string"
+                        },
+                        "full_location": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["full_location"]
+                }
+            }
+        },
+        "metadata": {
+            "description": "크롤링 및 데이터 처리에 대한 메타 정보",
+            "type": "object",
+            "properties": {
+                "source": {
+                    "description": "데이터 출처 플랫폼 (예: Wanted, Saramin)",
+                    "type": "string"
+                },
+                "sourceUrl": {
+                    "description": "원본 공고의 URL",
+                    "type": "string",
+                    "format": "uri"
+                },
+                "crawledAt": {
+                    "description": "데이터를 크롤링한 시점의 타임스탬프",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "source",
+                "sourceUrl",
+                "crawledAt"
+            ]
+        },
+        "sourceData": {
+            "description": "파싱되기 전의 원본 데이터 (JSON 객체 또는 HTML 문자열)",
+            "type": [
+                "object",
+                "string"
+            ]
+        }
+    },
+    "required": [
+        "companyName",
+        "source"
+    ]
+}

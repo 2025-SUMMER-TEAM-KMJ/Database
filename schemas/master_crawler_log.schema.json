@@ -1,0 +1,30 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "채용 공고 스키마",
+    "description": "크롤러 로그 저장",
+    "type": "object",
+    "properties": {
+        "urls": {
+            "type": "array",
+            "description": "수집할 URL 및 관련 목적 목록",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "수집 대상의 전체 URL"
+                    },
+                    "crawled": {
+                        "type": "array",
+                        "description": "파싱 목적 (성공했으면 추가, 예: job_posting)",
+                        "items": {
+                            "type": "string" 
+                        }
+                    }
+                },
+                "required": ["url", "crawled"]
+            }
+        }
+    }
+}
