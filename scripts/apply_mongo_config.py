@@ -5,11 +5,16 @@ import yaml
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, OperationFailure
 
+
+# 스크립트 파일의 절대 경로를 가져옴
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+# 설정 파일의 절대 경로를 계산
+DEFAULT_CONFIG_PATH = os.path.join(SCRIPT_DIR, 'mongo_config.yml')
+
 def load_config(config_path: str) -> dict:
     """YAML 설정 파일을 로드하여 'databases' 섹션을 반환합니다."""
     try:
         with open(config_path, 'r', encoding='utf-8') as f:
-            # 설정 파일이 비어있을 경우 None을 반환할 수 있으므로 기본값 {} 처리
             return yaml.safe_load(f).get('databases', {}) or {}
     except FileNotFoundError:
         print(f"오류: 설정 파일 '{config_path}'을(를) 찾을 수 없습니다.", file=sys.stderr)
