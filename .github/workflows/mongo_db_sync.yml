@@ -1,0 +1,49 @@
+# 워크플로우의 이름 (GitHub Actions 탭에 표시됨)
+name: MongoDB Schema Synchronization
+
+# 워크플로우가 실행될 시점을 정의하는 트리거
+on:
+  # 'main' 브랜치에 코드가 푸시될 때 실행
+  push:
+    branches:
+      - main
+    # 단, 아래 지정된 파일이 변경되었을 경우에만 실행
+    paths:
+      - 'mongo_config.yml'
+
+# 실행될 작업(Job)들의 목록
+jobs:
+  # 'sync-database'라는 이름의 단일 작업 정의
+  sync-database:
+    # 이 작업이 실행될 가상 환경의 종류
+    runs-on: ubuntu-latest
+    
+    # 작업 내에서 실행될 단계(Step)들의 목록
+    steps:
+      # 1. 코드 체크아웃
+      # 워크플로우가 저장소의 코드에 접근할 수 있도록 하는 기본 단계
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      # 2. 파이썬 환경 설정
+      # 지정된 버전의 파이썬을 설치
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      # 3. 파이썬 의존성 설치
+      # 스크립트 실행에 필요한 라이브러리(pymongo, pyyaml)를 설치
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pymongo pyyaml
+
+      # 4. MongoDB 동기화 스크립트 실행
+      # 실제 DB 스키마를 변경하는 핵심 단계
+      - name: Run MongoDB synchronization script
+        env:
+          # GitHub 저장소의 'Secrets'에 저장된 값을 환경 변수로 주입
+          # MONGO_URI 라는 이름의 Secret을 반드시 생성해야 함
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: python scripts/apply_mongo_config.py

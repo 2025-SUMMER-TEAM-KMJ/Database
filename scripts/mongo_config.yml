@@ -1,0 +1,11 @@
+# 이 파일에 명시된 데이터베이스와 컬렉션만 존재해야 합니다.
+# 여기에 없는 데이터베이스나 컬렉션은 스크립트에 의해 삭제됩니다.
+
+databases:
+  centeral: # 데이터베이스 이름
+    - jobkorea_cover_letters   # 컬렉션 이름
+    - wanted_company_profiles
+    - wanted_job_postings       
+    - master_crawler_logs
+    - master_job_postings
+    - master_user_profiles

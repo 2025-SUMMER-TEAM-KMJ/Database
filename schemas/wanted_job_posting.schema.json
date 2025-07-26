@@ -1,0 +1,184 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "채용 공고 스키마",
+    "description": "원티드 채용 공고 스키마",
+    "type": "object",
+    "properties": {
+        "metadata": {
+            "description": "크롤링 및 데이터 처리에 대한 메타 정보",
+            "type": "object",
+            "properties": {
+                "source": {
+                    "description": "데이터 출처 플랫폼 (예: Wanted, Saramin)",
+                    "type": "string"
+                },
+                "sourceUrl": {
+                    "description": "원본 공고의 URL",
+                    "type": "string",
+                    "format": "uri"
+                },
+                "crawledAt": {
+                    "description": "데이터를 크롤링한 시점의 타임스탬프",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "source",
+                "sourceUrl",
+                "crawledAt"
+            ]
+        },
+        "sourceData": {
+            "description": "파싱되기 전의 원본 데이터 (JSON 객체 또는 HTML 문자열)",
+            "type": [
+                "object",
+                "string"
+            ]
+        },
+        "externalUrl": {
+            "description": "원래 채용 공고 주소",
+            "type": "string",
+            "format": "uri"
+        },
+        "status": {
+            "description": "공고 상태 (파싱된 결과)",
+            "type": "string",
+            "enum": [
+                "active",
+                "closed"
+            ]
+        },
+        "due_time": {
+            "description": "공고 마감일 (파싱된 결과, 마감일이 없으면 null)",
+            "anyOf": [
+                {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "detail": {
+            "description": "공고 상세 내용",
+            "type": "object",
+            "properties": {
+                "position": {
+                    "description": "채용 포지션",
+                    "type": "object",
+                    "properties": {
+                        "jobGroup": {
+                            "description": "직군 (대분류)",
+                            "type": "string"
+                        },
+                        "job": {
+                            "description": "직무 (상세 포지션)",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "jobGroup",
+                        "job"
+                    ]
+                },
+                "intro": {
+                    "description": "팀/서비스 소개",
+                    "type": "string"
+                },
+                "main_tasks": {
+                    "description": "주요 업무",
+                    "type": "string"
+                },
+                "requirements": {
+                    "description": "자격 요건",
+                    "type": "string"
+                },
+                "preferred_points": {
+                    "description": "우대 사항",
+                    "type": "string"
+                },
+                "benefits": {
+                    "description": "혜택 및 복지",
+                    "type": "string"
+                },
+                "hire_rounds": {
+                    "description": "채용 절차",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "position",
+                "main_tasks",
+                "requirements"
+            ]
+        },
+        "company": {
+            "description": "회사 정보",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "logo_img": {
+                    "description": "회사 로고 이미지 URL",
+                    "anyOf": [
+                        {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "address": {
+                    "description": "회사 주소 정보",
+                    "type": "object",
+                    "properties": {
+                        "country": {
+                            "type": "string"
+                        },
+                        "location": {
+                            "type": "string"
+                        },
+                        "district": {
+                            "type": "string"
+                        },
+                        "full_location": {
+                            "type": "string"
+                        }
+                    },
+                    "required": ["full_location"]
+                }
+            },
+            "required": [
+                "name",
+                "address"
+            ]
+        },
+        "skill_tags": {
+            "description": "요구되는 기술 스택 태그 목록",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "title_images": {
+            "description": "공고 대표 이미지 목록",
+            "type": "array",
+            "items": {
+                "type": "string",
+                "format": "uri"
+            }
+        }
+    },
+    "required": [
+        "metadata",
+        "sourceData",
+        "status",
+        "detail",
+        "company"
+    ]
+}
