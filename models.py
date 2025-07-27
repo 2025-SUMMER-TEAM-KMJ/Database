@@ -8,51 +8,49 @@ from typing import List, Dict, Any, Optional, Union
 # ==============================================================================
 class MasterCrawlerLog:
     """
-    크롤러 로그 데이터를 관리하고 유효성을 검증하는 클래스.
+    크롤러 로그의 개별 항목 데이터를 관리하고 유효성을 검증하는 클래스.
 
-    이 클래스는 master_crawler_log.schema.json 스키마를 준수합니다.
+    이 클래스는 최종 크롤러 로그 항목 스키마를 준수합니다.
     """
 
     schema = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "title": "크롤러 로그 스키마",
-        "description": "크롤러 로그 저장",
+        "title": "크롤러 로그 항목 스키마",
+        "description": "크롤러가 처리할 개별 로그 항목의 구조를 정의합니다.",
         "type": "object",
         "properties": {
-            "urls": {
+            "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "수집 대상 URL"
+            },
+            "purposes": {
                 "type": "array",
-                "description": "수집할 URL 및 관련 목적 목록",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "url": {
-                            "type": "string",
-                            "format": "uri",
-                            "description": "수집 대상의 전체 URL"
-                        },
-                        "crawled": {
-                            "type": "array",
-                            "description": "파싱 목적 (성공했으면 추가, 예: job_posting)",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "required": ["url", "crawled"]
-                }
+                "description": "하나의 URL에 대한 여러 수집 목적 목록",
+                "items": {"type": "string"},
+                "minItems": 1
+            },
+            "crawledAt": {
+                "type": ["string", "null"],
+                "format": "date-time",
+                "description": "마지막으로 크롤링을 시도한 시각. 아직 처리되지 않았다면 null."
             }
         },
-        "required": ["urls"]
+        "required": ["url", "crawledAt"]
     }
 
-    def __init__(self, urls: List[Dict[str, Any]]):
+    def __init__(self, url: str, crawledAt: str, purposes: Optional[List[str]] = None):
         """
-        MasterCrawlerLog 인스턴스를 초기화합니다.
+        CrawlerLogItem 인스턴스를 초기화합니다.
 
         Args:
-            urls (List[Dict[str, Any]]): 수집할 URL 및 관련 목적 목록.
+            url (str): 수집 대상 URL.
+            purposes (List[str]): 수집 목적 목록.
+            crawledAt (Optional[str], optional): 마지막 크롤링 시각. Defaults to None.
         """
-        self.urls = urls
+        self.url = url
+        self.purposes = purposes
+        self.crawledAt = crawledAt
         self._validate()
 
     def to_dict(self) -> Dict[str, Any]:
@@ -63,7 +61,9 @@ class MasterCrawlerLog:
             Dict[str, Any]: 스키마 구조와 일치하는 딕셔너리.
         """
         return {
-            "urls": self.urls
+            "url": self.url,
+            "purposes": self.purposes,
+            "crawledAt": self.crawledAt
         }
 
     def _validate(self) -> None:
@@ -81,13 +81,13 @@ class MasterCrawlerLog:
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'MasterCrawlerLog':
         """
-        딕셔너리로부터 MasterCrawlerLog 인스턴스를 생성합니다.
+        딕셔너리로부터 CrawlerLogItem 인스턴스를 생성합니다.
 
         Args:
             data (Dict[str, Any]): 스키마 구조를 따르는 딕셔너리.
 
         Returns:
-            MasterCrawlerLog: 생성된 클래스 인스턴스.
+            CrawlerLogItem: 생성된 클래스 인스턴스.
             
         Raises:
             ValueError: 입력된 딕셔너리가 스키마에 맞지 않을 경우 발생합니다.
@@ -97,7 +97,15 @@ class MasterCrawlerLog:
         except jsonschema.ValidationError as e:
             raise ValueError(f"입력 딕셔너리 검증 실패: {e.message}") from e
         
-        return cls(urls=data['urls'])
+        return cls(
+            url=data['url'],
+            purposes=data['purposes'],
+            crawledAt=data.get('crawledAt')
+        )
+
+    def __repr__(self) -> str:
+        """객체를 표현하는 문자열을 반환합니다."""
+        return f"<CrawlerLogItem url='{self.url}' purposes={self.purposes}>"
 
 # ==============================================================================
 # 2. JobkoreaCoverLetter 클래스 (jobkorea_cover_letter.schema.json 기반)
