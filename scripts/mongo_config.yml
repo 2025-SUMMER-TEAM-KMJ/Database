@@ -9,3 +9,4 @@ databases:
     - master_crawler_logs
     - master_job_postings
     - master_user_profiles
+    - master_cover_letters
