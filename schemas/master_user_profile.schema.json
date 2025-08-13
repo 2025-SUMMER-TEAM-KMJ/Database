@@ -39,6 +39,10 @@
         "format": "uri"
       }
     },
+    "brief": {
+      "description": "자기소개",
+      "type": "string"
+    },
     "education": {
       "description": "학력 정보",
       "type": "array",
@@ -83,7 +87,6 @@
         },
         "required": [
           "schoolName",
-          "major",
           "startDate"
         ]
       }
@@ -178,23 +181,10 @@
                 "type": "null"
               }
             ]
-          },
-          "type": {
-            "description": "경험 타입",
-            "type": "string",
-            "enum": [
-              "Personal Project",
-              "Open Source Contribution",
-              "Tech Blog",
-              "Presentation",
-              "Study",
-              "Other"
-            ]
           }
         },
         "required": [
-          "title",
-          "description"
+          "title"
         ]
       }
     },
@@ -235,8 +225,8 @@
             "description": "수상 또는 자격증명",
             "type": "string"
           },
-          "description": {
-            "description": "상세 내용",
+          "agency": {
+            "description": "자격증 발급 기관",
             "type": "string"
           },
           "issueDate": {
@@ -251,22 +241,28 @@
         ]
       }
     },
-    "personalNarratives": {
+    "QnAs": {
       "description": "개인 서술",
-      "type": "object",
-      "properties": {
-        "personality": {
-          "description": "성격의 장단점",
-          "type": "string"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "description": "제목",
+            "type": "string"
+          },
+          "content": {
+            "description": "내용",
+            "type": "string"
+          },
+          "category": {
+            "description": "카테고리",
+            "type": "string"
+          }
         },
-        "values": {
-          "description": "가치관",
-          "type": "string"
-        },
-        "psExperience": {
-          "description": "주요 문제 해결 경험",
-          "type": "string"
-        }
+        "required": [
+          "jobGroup"
+        ]
       }
     }
   },
