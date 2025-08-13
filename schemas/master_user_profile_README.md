@@ -26,7 +26,7 @@
     -   `name` (string, **필수**), `agency` (string), `issueDate` (string, **필수**)
 -   **`QnAs`** (array of objects): 사용자의 가치관, 성격, 경험 등을 보여주는 문답(Q&A) 형식의 개인 서술 목록.
     -   `title` (string), `content` (string), `category` (string)
-
+-   **`interestJobs`** (array of string): 관심 공고 id 리스트
 ---
 
 ### Python 클래스 활용
