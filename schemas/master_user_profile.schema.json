@@ -270,6 +270,13 @@
       }
     }
   },
+  "interestJobs": {
+    "type": "array",
+    "items": {
+      "type": "string",
+      "description": "관심 공고 id 리스트"
+    }
+  },
   "required": [
     "name",
     "age",
