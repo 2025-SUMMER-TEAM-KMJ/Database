@@ -4,6 +4,10 @@
   "description": "사용자의 과거 경력과 현재 희망 직무를 구조화한 스키마입니다.",
   "type": "object",
   "properties": {
+    "userId": {
+      "description": "유저 id",
+      "type": "string"
+    },
     "name": {
       "description": "이름",
       "type": "string"
